@@ -7,7 +7,6 @@
 #include <utility>
 
 #include "queue.h"
-#include "vector.h"
 
 // Add option to create without iterator
 

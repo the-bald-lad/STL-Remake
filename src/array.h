@@ -6,8 +6,6 @@
 
 #include "iterator.h"
 
-#include <cstring>
-
 namespace dataStructures
 {
     template<typename T, size_t S>
@@ -46,7 +44,7 @@ namespace dataStructures
 
         Iterator end()
         {
-            return Iterator(m_data + S - 1);
+            return Iterator(m_data + S);
         }
 
         // ReSharper disable once CppMemberFunctionMayBeStatic

@@ -15,4 +15,6 @@ add_executable(remaking_stdlib
         src/queue.h
         src/map.h
         src/move.h
+        src/hash.h
+        src/stlint.h
 )

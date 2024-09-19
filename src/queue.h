@@ -4,8 +4,6 @@
 
 #pragma once
 
-#include <queue>
-
 namespace dataStructures
 {
     template<typename T>
