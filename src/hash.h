@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "strings.h"
+#include "mystring.h"
 
 #include "stlint.h"
 
@@ -16,7 +16,7 @@ namespace Hexing
 
         for (int i = 15; i >= 0; --i)
         {
-            auto* hexChars = "0123456789ABCDEF";
+            const auto* hexChars = "0123456789ABCDEF";
             hexStr[i] = hexChars[hash & 0xF];
             hash >>= 4;
         }
@@ -39,5 +39,6 @@ inline String hash(const String& str) noexcept
 
     hash = Hexing::scrambleAndObscure(hash);
 
-    return Hexing::intToHex(hash + hash * 512);
+    // TODO: this doesn't work
+    return Hexing::intToHex(hash);
 }

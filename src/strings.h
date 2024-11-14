@@ -2,14 +2,17 @@
 // Created by samjb on 23/06/2024.
 //
 
-#pragma once
+// FILE DEPRECIATED
 
-#include "move.h"
+#pragma once
 
 #include <ostream>
 #include "stlint.h"
 
-#include <string.h>
+#include <cstring>
+
+// TODO: Make m_string const, solve for assigning and make stack/heap trade for larger strings like stl
+// i.e. 15 or less is stack alloc, more is heap. Maybe have a pre-defined stack buffer to solve for nullptr issues
 
 class String
 {
@@ -20,7 +23,7 @@ public:
     {
     }
 
-    String(char* data) noexcept
+    String(const char* data) noexcept
         : m_string(data)
     {
         setSize();
@@ -28,16 +31,16 @@ public:
     String(const sizet& size, const char fill)
         : m_size(size)
     {
-        m_string = static_cast<char*>(::operator new(size+1 * sizeof(char)));
+        const auto temp = static_cast<char*>(::operator new(size+1 * sizeof(char)));
 
         {
             sizet i = 0;
             for (; i < size; i++)
-                m_string[i] = fill;
-            m_string[++i] = '\0';
+                temp[i] = fill;
+            temp[++i] = '\0';
         }
 
-        m_size = size;
+        m_string = temp;
     }
 
     String(const String& copy) noexcept
@@ -51,6 +54,14 @@ public:
         setSize();
     }
 
+    ~String();
+
+    String& operator=(const char* data) noexcept
+    {
+        m_string = data;
+        return *this;
+    }
+
     constexpr String& operator=(const String& other)
     {
         if (this == &other)
@@ -59,15 +70,17 @@ public:
         delete[] m_string;
 
         m_string = new char[strlen(other.m_string) + 1];
-        strcpy(m_string, other.m_string);
+        //strcpy(m_string, other.m_string);
+        m_string = other.m_string;
 
         setSize();
 
         return *this;
     }
 
-    constexpr char& operator[](const sizet& index) { return m_string[index]; }
-    constexpr const char& operator[](const sizet& index) const { return m_string[index]; }
+    // TODO: Fix this
+    constexpr const char& operator[](const sizet& index) { return m_string[index]; }
+    constexpr const char& operator[] (const sizet& index) const { return m_string[index]; }
 
     // Iterators
     Iterator begin()
@@ -91,10 +104,8 @@ public:
         return Iterator(m_string + m_size - 1);
     }
 
-    [[nodiscard]] const char* get_raw() const
-    {
-        return m_string;
-    }
+    [[nodiscard]] const char* get_raw() const { return m_string; }
+
 
 private:
     void setSize()
@@ -103,7 +114,7 @@ private:
             m_size++;
     }
 
-    char* m_string = nullptr;
+    const char *m_string = nullptr; // Should be const
     uint32t m_size = 0;
 };
 

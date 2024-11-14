@@ -4,6 +4,10 @@
 
 #pragma once
 
+#include <utility>
+
+#include "util.h"
+
 namespace dataStructures
 {
     template <typename T>
@@ -23,7 +27,7 @@ namespace dataStructures
         {
         }
         UniquePointer(UniquePointer&& other) noexcept
-            : m_ptr(std::move(other.m_ptr))
+            : m_ptr(util::move(other.m_ptr))
         {
         }
         ~UniquePointer()
@@ -49,9 +53,9 @@ namespace dataStructures
 }
 
 template<typename T, typename... Args>
-inline dataStructures::UniquePointer<T> make_unique(Args&&... args)
+dataStructures::UniquePointer<T> make_unique(Args&&... args)
 {
     T* temp = static_cast<T*>(::operator new(sizeof(T)));
-    *temp = std::move(std::forward<Args>(args)...);
+    *temp = util::move(util::forward<Args>(args)...);
     return dataStructures::UniquePointer<T>(temp);
 }

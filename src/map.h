@@ -6,9 +6,7 @@
 
 #pragma once
 
-#include <utility>
-
-//
+#include "util.h"
 
 namespace dataStructures
 {
@@ -57,7 +55,7 @@ namespace dataStructures
 
             // 2. move to new location
             for (size_t i = 0; i < m_size; i++)
-                new_block[i] = std::move(m_keys[i]);
+                new_block[i] = move(m_keys[i]);
 
             // 3. free old block
             for (size_t i = 0; i < m_size; i++)
@@ -79,7 +77,7 @@ namespace dataStructures
 
             // 2. move to new location
             for (size_t i = 0; i < m_size; i++)
-                new_block[i] = std::move(m_items[i]);
+                new_block[i] = move(m_items[i]);
 
             // 3. free old block
             for (size_t i = 0; i < m_size; i++)

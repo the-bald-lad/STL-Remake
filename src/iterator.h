@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "stlint.h"
+
 namespace Iterating
 {
 
@@ -73,7 +75,7 @@ namespace Iterating
         }
 
         // Get the index
-        ReferenceType operator[](size_t index)
+        ReferenceType operator[](sizet index)
         {
             return *(m_ptr + index);
         }

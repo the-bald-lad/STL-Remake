@@ -6,19 +6,18 @@
 
 #include "iterator.h"
 
+#include "stlint.h"
+
 namespace dataStructures
 {
-    template<typename T, size_t S>
+    template<typename T, sizet S>
     class Array
     {
     public:
         using ValueType = T;
         using Iterator = Iterating::Iterator<Array>;
 
-        Array()
-        {
-            memset(m_data, 0, S * sizeof(T));
-        }
+        Array() = default;
         Array(const Array& copy) noexcept
             : m_data(copy.m_data)
         {
@@ -48,11 +47,11 @@ namespace dataStructures
         }
 
         // ReSharper disable once CppMemberFunctionMayBeStatic
-        [[nodiscard]] constexpr size_t size() const noexcept { return S; }
+        [[nodiscard]] constexpr sizet size() const noexcept { return S; }
 
         // Indexing operator
-        T& operator[](size_t index) { return m_data[index]; }
-        const T& operator[](size_t index) const { return m_data[index]; }
+        T& operator[](sizet index) { return m_data[index]; }
+        const T& operator[](sizet index) const { return m_data[index]; }
 
         // Return array pointer
         T* Data() { return m_data; }

@@ -4,7 +4,12 @@
 
 #pragma once
 
+#include <algorithm>
+
 #include "iterator.h"
+
+#include "stlint.h"
+#include "util.h"
 
 #include <utility>
 
@@ -23,6 +28,38 @@ namespace dataStructures
         {
             // Allocate space for 2 items on construction
             reAlloc(2);
+        }
+        Vector(const sizet& size)
+        {
+            reAlloc(size);
+        }
+
+        Vector(const Vector& other) noexcept
+        {
+            reAlloc(other.size());
+            std::copy(other.begin(), other.end(), begin());
+        }
+        Vector(Vector&& other) noexcept         {
+            reAlloc(other.size());
+            std::copy(other.begin(), other.end(), begin());
+        }
+        Vector& operator=(const Vector& other) noexcept
+        {
+            if (this == &other)
+                return *this;
+
+            reAlloc(other.size());
+            std::copy(other.begin(), other.end(), begin());
+            return *this;
+        }
+        Vector& operator=(Vector&& other) noexcept
+        {
+            if (this == &other)
+                return *this;
+
+            reAlloc(other.size());
+            std::copy(other.begin(), other.end(), begin());
+            return *this;
         }
 
         ~Vector()
@@ -46,14 +83,14 @@ namespace dataStructures
         }
 
         // Access functions
-        [[nodiscard]] size_t size() const noexcept { return m_size; }
+        [[nodiscard]] sizet size() const noexcept { return m_size; }
 
         // lvalue and implicit rvalue push back
         void push_back(const T& value) noexcept
         {
             checkCap();
 
-            m_data[m_size] = std::move(value);
+            m_data[m_size] = move(value);
             m_size++;
         }
 
@@ -62,8 +99,20 @@ namespace dataStructures
         {
             checkCap();
 
-            m_data[m_size] = std::move(value);
+            m_data[m_size] = move(value);
             m_size++;
+        }
+
+        // Call constructors for items added
+        template<typename... Args>
+        [[maybe_unused]] T& emplace_back(Args&&... args) noexcept
+        {
+            checkCap();
+
+            // Calls constructor for item added, inserts in-place
+            new(&m_data[m_size]) T(std::forward<Args>(args)...);
+
+            return m_data[m_size++];
         }
 
         // Essentially dequeue
@@ -80,19 +129,17 @@ namespace dataStructures
         }
 
         // Remove a specific index
-        void remove(size_t index)
+        void remove(sizet index)
         {
             // Bounds checks
-            if (index > m_size)
-                __debugbreak();
-            if (index <= 0)
-                __debugbreak();
+            if (index > m_size || index <= 0)
+                return;
 
             // Delete item
             m_data[index].~T();
 
             // Move others up
-            for (size_t i = index; i < m_size; i++)
+            for (sizet i = index; i < m_size; i++)
                 m_data[i] = m_data[i+1];
 
             // Reduce current size
@@ -102,43 +149,37 @@ namespace dataStructures
         // Clear the structure
         void clear()
         {
-            for (size_t i = 0; i < m_size; i++)
+            for (sizet i = 0; i < m_size; i++)
                 m_data[i].~T();
 
             m_size = 0;
         }
 
-        // Call constructors for items added
-        template<typename... Args>
-        [[maybe_unused]] T& emplace_back(Args&&... args) noexcept
+        void reserve(const sizet& size)
         {
-            checkCap();
-
-            // Calls constructor for item added, inserts in-place
-            new(&m_data[m_size]) T(std::forward<Args>(args)...);
-
-            return m_data[m_size++];
+            reAlloc(size);
         }
 
-        T& operator[](size_t index) noexcept
+        void shrink(const sizet& size)
         {
-            return m_data[index];
+            // Cannot make size more than is in vector
+            if (size > m_size)
+                return;
+            m_size = size;
         }
 
-        const T& operator[](size_t index) const noexcept
-        {
-            return m_data[index];
-        }
+        T& operator[](sizet index) noexcept { return m_data[index]; }
+        const T& operator[](sizet index) const noexcept { return m_data[index]; }
     private:
         // ReSharper disable once CppDFAUnreachableFunctionCall
-        void checkCap(const size_t& size_divider = 2)
+        void checkCap(const sizet& size_divider = 2)
         {
             if (m_size >= m_capacity)
                 reAlloc(m_capacity + m_capacity / size_divider);
         }
 
         // ReSharper disable once CppDFAUnreachableFunctionCall
-        void reAlloc(const size_t& new_capacity) noexcept
+        void reAlloc(const sizet& new_capacity) noexcept
         {
             // 1. allocate new block of memory
             T* new_block = static_cast<T*>(::operator new(new_capacity * sizeof(T)));
@@ -164,10 +205,10 @@ namespace dataStructures
         T* m_data = nullptr;
 
         // Current size
-        size_t m_size = 0;
+        sizet m_size = 0;
 
         // Current max size
-        size_t m_capacity = 0;
+        sizet m_capacity = 0;
     };
 
 }

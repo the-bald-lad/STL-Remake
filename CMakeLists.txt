@@ -14,7 +14,10 @@ add_executable(remaking_stdlib
         src/trees.h
         src/queue.h
         src/map.h
-        src/move.h
+        src/util.h
         src/hash.h
         src/stlint.h
+        src/string_internal.h
+        src/iterator.h
+        src/mystring.h
 )

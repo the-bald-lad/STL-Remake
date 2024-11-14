@@ -4,16 +4,17 @@
 
 #pragma once
 
-// Signed types
-typedef signed char int8t;
-typedef signed short int16t;
-typedef signed int int32t;
-typedef signed long long int64t;
+// Signed
+using int8t = signed char;
+using int16t = signed short;
+using int32t = signed int;
+using int64t = signed long long int;
 
-// Unsigned types
-typedef unsigned char uint8t;
-typedef unsigned short uint16t;
-typedef unsigned int uint32t;
-typedef unsigned long long uint64t;
+// Unsigned
+using uint8t = unsigned char;
+using uint16t = unsigned short;
+using uint32t = unsigned int;
+using uint64t = unsigned long long int;
 
-typedef unsigned long long sizet;
+// Other aliases
+using sizet = unsigned long long;

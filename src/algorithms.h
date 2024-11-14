@@ -35,3 +35,14 @@ namespace Sorting
     }
 }
 
+// TODO: Fix this
+namespace Setting
+{
+    template<typename T>
+    void* memset(void *ptr, const int value, sizet size) {
+        auto* p = static_cast<T*>(ptr);
+        while (size--)
+            *p++ = static_cast<T>(value);
+        return ptr;
+    }
+}

@@ -1,28 +1,18 @@
 #include <iostream>
 
+// TODO: Hash does not work
+
 // TODO: map
 // TODO: unordered_map
 // TODO: shared/weak pointers
+// TODO: Create std::forward
 
-#include "array.h"
 
-#include "algorithms.h"
-
-#include "queue.h"
-#include "trees.h"
-
-#include "hash.h"
+#include "pointers.h"
 
 int main()
 {
-    dataStructures::Array<String, 5> strings;
-    strings[0] = "Test";
-    strings[1] = "Test1";
-    strings[2] = "Beans";
-    strings[3] = "Cheese";
-    strings[4] = "a";
+    dataStructures::UniquePointer<int> ptr = make_unique<int>(5);
 
-    for (const auto& i : strings)
-        std::cout << hash(i) << " : " << i << std::endl;
+    std::cout << *ptr << std::endl;
 }
-
