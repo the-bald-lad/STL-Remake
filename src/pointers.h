@@ -4,58 +4,13 @@
 
 #pragma once
 
-#include <utility>
-
+// For all pointer types
 #include "util.h"
+#include "stlint.h"
 
-namespace dataStructures
-{
-    template <typename T>
-    class UniquePointer
-    {
-    public:
-        UniquePointer() noexcept
-            : m_ptr(nullptr)
-        {
-        }
-        explicit UniquePointer(T* p) noexcept
-            : m_ptr(p)
-        {
-        }
-        UniquePointer(const UniquePointer& other) noexcept
-            : m_ptr(other.m_ptr)
-        {
-        }
-        UniquePointer(UniquePointer&& other) noexcept
-            : m_ptr(util::move(other.m_ptr))
-        {
-        }
-        ~UniquePointer()
-        {
-            delete m_ptr;
-        }
 
-        [[nodiscard]] UniquePointer& operator=(UniquePointer&&) noexcept = default;
-        [[nodiscard]] UniquePointer& operator=(const UniquePointer&) noexcept = default;
+#include "uniqueptr.h"
 
-        T& operator*()
-        {
-            return *m_ptr;
-        }
+#include "sharedptr.h"
 
-        T* operator->()
-        {
-            return m_ptr;
-        }
-    private:
-        T* m_ptr;
-    };
-}
-
-template<typename T, typename... Args>
-dataStructures::UniquePointer<T> make_unique(Args&&... args)
-{
-    T* temp = static_cast<T*>(::operator new(sizeof(T)));
-    *temp = util::move(util::forward<Args>(args)...);
-    return dataStructures::UniquePointer<T>(temp);
-}
+#include "weakptr.h"
