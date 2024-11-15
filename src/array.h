@@ -8,7 +8,9 @@
 
 #include "stlint.h"
 
-namespace dataStructures
+#include "util.h"
+
+namespace stl
 {
     template<typename T, sizet S>
     class Array
@@ -23,17 +25,15 @@ namespace dataStructures
         {
         }
         Array(Array&& move) noexcept
-            : m_data(std::move(move.m_data))
+            : m_data(util::move(move.m_data))
         {
         }
 
         template<typename... Args>
         Array(Args&&... args)
-            : m_data(std::forward<Args>(args)...)
+            : m_data(util::forward<Args>(args)...)
         {
         }
-
-        ~Array() = default;
 
         // Iterators
         Iterator begin()

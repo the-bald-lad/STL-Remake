@@ -8,11 +8,10 @@
 
 namespace Iterating
 {
-
-    template<typename T>
     /*
      * Used to add to data structures to allow for nicer for loops
      */
+    template<typename T>
     class Iterator
     {
     public:
@@ -32,7 +31,6 @@ namespace Iterating
             *m_ptr = *other.m_ptr;
             return *this;
         }
-
 
         // Pointer offsetting
         PointerType operator+(int offset)
@@ -56,7 +54,7 @@ namespace Iterating
         Iterator operator++(int)
         {
             Iterator iterator = *this;
-            ++(*this);
+            ++*this;
             return iterator;
         }
 
@@ -70,7 +68,7 @@ namespace Iterating
         Iterator operator--(int)
         {
             Iterator iterator = *this;
-            --(*this);
+            --*this;
             return iterator;
         }
 

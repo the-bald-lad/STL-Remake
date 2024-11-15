@@ -13,7 +13,7 @@
 
 #include <utility>
 
-namespace dataStructures
+namespace stl
 {
 
     template<typename T>
@@ -110,7 +110,7 @@ namespace dataStructures
             checkCap();
 
             // Calls constructor for item added, inserts in-place
-            new(&m_data[m_size]) T(std::forward<Args>(args)...);
+            new(&m_data[m_size]) T(util::forward<Args>(args)...);
 
             return m_data[m_size++];
         }
@@ -189,7 +189,7 @@ namespace dataStructures
 
             // 2. move to new location
             for (size_t i = 0; i < m_size; i++)
-                new_block[i] = std::move(m_data[i]);
+                new_block[i] = util::move(m_data[i]);
 
             // 3. free old block
             for (size_t i = 0; i < m_size; i++)

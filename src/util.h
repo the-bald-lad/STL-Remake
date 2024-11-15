@@ -21,28 +21,40 @@ namespace util
 
     template <typename T> constexpr bool is_lvalue(T&)  { return true; }
     template <typename T> constexpr bool is_lvalue(T&&) { return false; }
+
+    using byte = unsigned char;
 }
 
 // Utility Functions
 namespace util
 {
-    template<typename T>
+    // Move
+    template <typename T>
+    constexpr typename remove_ref<T>::type&& move(T& move_val) noexcept
+    {
+        return static_cast<std::remove_reference_t<T>&&>(move_val);
+    }
+
+    template <typename T>
     constexpr typename remove_ref<T>::type&& move(T&& move_val) noexcept
     {
         return static_cast<std::remove_reference_t<T>&&>(move_val);
     }
 
-    template<typename T>
+    // Forward TODO: Add const versions
+    template <typename T>
     T&& forward(typename remove_ref<T>::type& forward_val) noexcept
     {
         return static_cast<T&&>(forward_val);
     }
 
-    template<typename T>
+    template <typename T>
     T&& forward(typename remove_ref<T>::type&& forward_val) noexcept
     {
-        static_assert(!is_lvalue<T>(),
-            "util::forward must not be used to convert an rvalue to an lvalue");
-        return const_cast<T&&>(forward_val);
+        static_assert(
+            !is_lvalue<T>(),
+            "util::forward must not be used to convert an rvalue to an lvalue"
+            );
+        return static_cast<T&&>(forward_val);
     }
 }

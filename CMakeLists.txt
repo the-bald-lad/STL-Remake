@@ -20,4 +20,7 @@ add_executable(remaking_stdlib
         src/string_internal.h
         src/iterator.h
         src/mystring.h
+        src/uniqueptr.h
+        src/sharedptr.h
+        src/weakptr.h
 )

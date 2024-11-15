@@ -5,14 +5,22 @@
 // TODO: map
 // TODO: unordered_map
 // TODO: shared/weak pointers
-// TODO: Create std::forward
-
 
 #include "pointers.h"
 
 int main()
 {
-    dataStructures::UniquePointer<int> ptr = make_unique<int>(5);
+    stl::SharedPointer<int> other {};
 
-    std::cout << *ptr << std::endl;
+    {
+        stl::SharedPointer<int> ptr = make_shared<int>(5);
+
+        other = ptr;
+
+        std::cout << *ptr << std::endl;
+    }
+
+    std::cout << *other << std::endl;
+
+    std::cout << "beans\n";
 }

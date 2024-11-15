@@ -6,9 +6,7 @@
 
 #pragma once
 
-#include "util.h"
-
-namespace dataStructures
+namespace stl
 {
     template<typename T_key, typename T_item>
     class Map

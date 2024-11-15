@@ -4,7 +4,7 @@
 
 #pragma once
 
-namespace dataStructures
+namespace stl
 {
     template<typename T>
     class Queue

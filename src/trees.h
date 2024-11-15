@@ -10,7 +10,7 @@
 
 // Add option to create without iterator
 
-namespace dataStructures
+namespace stl
 {
     template<typename T>
     struct Node

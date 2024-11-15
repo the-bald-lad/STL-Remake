@@ -4,18 +4,17 @@
 
 #pragma once
 
+#include "stlint.h"
+
 #include "trees.h"
 
-namespace Sorting
+namespace sorting
 {
     template <typename T>
     void sort(T first, T last, bool ascending = true)
     {
-        auto tree = dataStructures::BinaryTree<typename T::ValueType>();
+        auto tree = stl::BinaryTree<typename T::ValueType>();
         tree.generate(first, last);
-
-
-        
 
         return;
         // TODO: Change to heap sort for n log n rather than n^2
