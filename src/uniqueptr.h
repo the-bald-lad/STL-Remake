@@ -19,10 +19,9 @@ namespace stl
             : m_ptr(p)
         {
         }
-        UniquePointer(const UniquePointer& other) noexcept
-            : m_ptr(other.m_ptr)
-        {
-        }
+        // Delete the copy constructor
+        UniquePointer(const UniquePointer& other) = delete;
+
         UniquePointer(UniquePointer&& other) noexcept
             : m_ptr(util::move(other.m_ptr))
         {
@@ -30,10 +29,20 @@ namespace stl
         ~UniquePointer()
         {
             delete m_ptr;
+            m_ptr = nullptr;
         }
 
-        [[nodiscard]] UniquePointer& operator=(UniquePointer&&) noexcept = default;
-        [[nodiscard]] UniquePointer& operator=(const UniquePointer&) noexcept = default;
+        //[[nodiscard]] UniquePointer& operator=(const UniquePointer&) noexcept = default;
+        UniquePointer& operator=(UniquePointer&& other) noexcept
+        {
+            if (this != &other)
+            {
+                delete m_ptr;  // Delete existing resource
+                m_ptr = other.m_ptr;  // Steal the pointer
+                other.m_ptr = nullptr;  // Null out the source pointer
+            }
+            return *this;
+        }
 
         T& operator*()
         {
@@ -52,7 +61,5 @@ namespace stl
 template <typename T, typename... Args>
 stl::UniquePointer<T> make_unique(Args&&... args)
 {
-    T* temp = static_cast<T*>(::operator new(sizeof(T)));
-    *temp = util::move(util::forward<Args>(args)...);
-    return stl::UniquePointer<T>(temp);
+    return stl::UniquePointer<T>(new T(std::forward<Args>(args)...));
 }

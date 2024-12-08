@@ -21,18 +21,24 @@ namespace stl
 
         Array() = default;
         Array(const Array& copy) noexcept
-            : m_data(copy.m_data)
         {
+            for (sizet i = 0; i < S; ++i)
+                m_data[i] = copy.m_data[i];
         }
         Array(Array&& move) noexcept
             : m_data(util::move(move.m_data))
         {
         }
-
         template<typename... Args>
         Array(Args&&... args)
             : m_data(util::forward<Args>(args)...)
         {
+        }
+
+        ~Array()
+        {
+            for (sizet i = 0; i < S; i++)
+                m_data[i].~T();
         }
 
         // Iterators
