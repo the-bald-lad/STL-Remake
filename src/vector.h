@@ -11,8 +11,6 @@
 #include "stlint.h"
 #include "util.h"
 
-#include <utility>
-
 namespace stl
 {
 
@@ -90,7 +88,7 @@ namespace stl
         {
             checkCap();
 
-            m_data[m_size] = move(value);
+            m_data[m_size] = util::move(value);
             m_size++;
         }
 
@@ -99,7 +97,7 @@ namespace stl
         {
             checkCap();
 
-            m_data[m_size] = move(value);
+            m_data[m_size] = util::move(value);
             m_size++;
         }
 
