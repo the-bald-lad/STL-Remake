@@ -39,6 +39,7 @@ namespace stl
         }
         Vector(Vector&& other) noexcept         {
             reAlloc(other.size());
+            // TODO: make own copy function
             std::copy(other.begin(), other.end(), begin());
         }
         Vector& operator=(const Vector& other) noexcept
@@ -47,6 +48,7 @@ namespace stl
                 return *this;
 
             reAlloc(other.size());
+            // TODO: make own copy function
             std::copy(other.begin(), other.end(), begin());
             return *this;
         }
