@@ -25,8 +25,9 @@ public:
         if (data == nullptr)
             throw std::exception();
 
-        for (int i = 0; data[i] != '\0'; i++)
-            m_size++;
+        while (data[m_size] != '\0') {
+            ++m_size;
+        }
 
         if (m_size < 15 && !m_is_heap_alloc)
             stack_alloc(data);
@@ -40,12 +41,20 @@ public:
 
     // Copy and move constructors
     string_internal(const string_internal& other) noexcept
-        : m_contents(other.m_contents), m_size(other.m_size)
+        : m_contents(nullptr), m_size(other.m_size), m_is_heap_alloc(other.m_is_heap_alloc)
     {
+        if (m_is_heap_alloc) {
+            heap_alloc(other.m_contents, m_size);
+        } else {
+            stack_alloc(other.m_contents);
+        }
     }
     string_internal(string_internal&& other) noexcept
-        : m_contents(other.m_contents), m_size(other.m_size)
+        : m_contents(nullptr), m_size(other.m_size), m_is_heap_alloc(other.m_is_heap_alloc)
     {
+        other.m_contents = nullptr;
+        other.m_size = 0;
+        other.m_is_heap_alloc = false;
     }
 
     // Equals overloads
@@ -70,11 +79,36 @@ public:
         if (this == &other)
             return *this;
 
+        if (m_is_heap_alloc)
+            delete[] m_contents;
+
+        m_size = other.m_size;
+        m_is_heap_alloc = other.m_is_heap_alloc;
+
+        if (m_is_heap_alloc) {
+            heap_alloc(other.m_contents, m_size);
+        } else {
+            stack_alloc(other.m_contents);
+        }
+
+        return *this;
+    }
+    string_internal& operator=(string_internal&& other) noexcept
+    {
+        if (this == &other)
+            return *this;
+
+        if (m_is_heap_alloc) {
+            delete[] m_contents;
+        }
+
         m_contents = other.m_contents;
         m_size = other.m_size;
         m_is_heap_alloc = other.m_is_heap_alloc;
 
-        this = &other; // Unsure
+        other.m_contents = nullptr;
+        other.m_size = 0;
+        other.m_is_heap_alloc = false;
 
         return *this;
     }
@@ -92,8 +126,11 @@ public:
     // Destructors
     ~string_internal()
     {
-        delete m_contents;
-        //::operator delete(m_contents, m_size * sizeof(T));
+        if (m_is_heap_alloc)
+        {
+            delete[] m_contents;
+            m_contents = nullptr;
+        }
     }
 
     // Iterators
@@ -114,7 +151,7 @@ private:
         if (m_is_heap_alloc)
             heap_alloc(data);
 
-        m_contents = data;
+        m_contents = const_cast<T*>(data);
     }
     void stack_alloc(const T* data, const sizet& size)
     {
@@ -132,24 +169,19 @@ private:
     {
         m_is_heap_alloc = true;
 
-        auto* temp_contents = static_cast<T*>(::operator new(sizeof(T) * m_size));
-        for (int i = 0; i < m_size; i++)
-            temp_contents[i] = data[i];
-
-        m_contents = temp_contents;
-        delete temp_contents;
+        m_contents = new T[m_size + 1];
+        std::copy(data, data + m_size, m_contents);
+        m_contents[m_size] = '\0';
     }
     void heap_alloc(const T* data, const sizet& size)
     {
         m_is_heap_alloc = true;
 
-        auto* temp_contents = static_cast<T*>(::operator new(sizeof(T) * size));
-        for (int i = 0; i < size; i++)
-            temp_contents[i] = data[i];
+        m_contents = new T[m_size + 1]; // +1 for null terminator
+        std::copy(data, data + m_size, m_contents);
+        m_contents[m_size] = '\0';
 
-        m_contents = temp_contents;
         m_size = size;
-        delete temp_contents;
     }
     void heap_alloc(const T& fill, const sizet& size)
     {
@@ -161,7 +193,6 @@ private:
 
         m_contents = temp_contents;
         m_size = size;
-        delete temp_contents;
     }
 
     // Holds string pointer

@@ -8,12 +8,15 @@
 
 #include <ostream> // For cout overload
 
-// String aliases
-using String = string_internal<char>;
+namespace stl
+{
+    // String aliases
+    using String = string_internal<char>;
 
+}
 
 // cout overload
 namespace std
 {
-    inline ostream& operator<<(ostream& out_stream, const String& str) { return out_stream << str.get_raw(); }
+    inline ostream& operator<<(ostream& out_stream, const stl::String& str) { return out_stream << str.get_raw(); }
 }
