@@ -4,7 +4,6 @@
 
 #pragma once
 
-// Helper Structs
 namespace util
 {
     template <typename T_>
@@ -25,18 +24,16 @@ namespace util
     using byte = unsigned char;
 }
 
-// Utility Functions
 namespace util
 {
-    // Move
     template <typename T>
-    constexpr typename remove_ref<T>::type&& move(T& move_val) noexcept
+    constexpr remove_ref<T>::type&& move(T& move_val) noexcept
     {
         return static_cast<std::remove_reference_t<T>&&>(move_val);
     }
 
     template <typename T>
-    constexpr typename remove_ref<T>::type&& move(T&& move_val) noexcept
+    constexpr remove_ref<T>::type&& move(T&& move_val) noexcept
     {
         return static_cast<std::remove_reference_t<T>&&>(move_val);
     }
