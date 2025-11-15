@@ -17,16 +17,14 @@ namespace stl
     {
         Node(const T& n_value) noexcept
             : value(n_value)
-        {
-        }
+        { }
         Node(T&& n_value) noexcept
             : value(std::move(n_value))
-        {
-        }
+        { }
 
         [[nodiscard]] constexpr bool isLeaf() const noexcept
         {
-            return (left == nullptr) && (right == nullptr);
+            return left == nullptr && right == nullptr;
         }
 
         T value;
@@ -38,11 +36,9 @@ namespace stl
     class BinaryTree
     {
     public:
-        // Should only be used with iterators
         // TODO: Check this works
         BinaryTree()
-        {
-        }
+        { }
 
         template<typename It>
         explicit BinaryTree(It first, It last)

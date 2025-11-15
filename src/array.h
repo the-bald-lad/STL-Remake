@@ -21,7 +21,9 @@ namespace stl
         Array(const Array& copy) noexcept
         {
             for (sizet i = 0; i < TSize; ++i)
+            {
                 m_data[i] = copy.m_data[i];
+            }
         }
 
         Array(Array&& move) noexcept

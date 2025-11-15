@@ -80,6 +80,7 @@ private:
 
 namespace stl {
 
+// TODO: Change to support binding values at creation
 template <typename TReturnType, typename... TArgs>
 class Function
 {
@@ -93,6 +94,29 @@ public:
     explicit Function(TFunctor&& functor)
     {
         m_callable = new function::CallableFromFunctor<TReturnType, TArgs...>(util::forward<TFunctor>(functor));
+    }
+
+    Function(const Function& other) = delete;
+    Function operator=(const Function& other) = delete;
+
+    Function(Function&& other) noexcept
+        : m_callable(util::move(other.m_callable))
+    {
+        delete other.m_callable;
+        other.m_callable = nullptr;
+    }
+
+    Function& operator=(Function&& other) noexcept
+    {
+        if (this == &other)
+        {
+            return *this;
+        }
+
+        m_callable = other.m_callable;
+        delete other.m_callable;
+        other.m_callable = nullptr;
+        return *this;
     }
 
     ~Function()

@@ -56,16 +56,18 @@ void exampleThree()
         std::cout << "Your name is: " << name << std::endl;
 }
 
-void DoStuff(int x)
+void DoStuff(int x, float y)
 {
-    std::cout << "Called with value: " << x << std::endl;
+    std::cout << "Called with value: " << x + y << std::endl;
 }
 
 int main()
 {
+    stl::Function otherFunc(DoStuff);
+
     stl::Function<void, int> func([](int x) {
         std::cout << "called with value: " << x << std::endl;
     });
 
-    func(1);
+    otherFunc(1, 5);
 }

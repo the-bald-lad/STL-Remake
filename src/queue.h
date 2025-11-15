@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "util.h"
+
 namespace stl
 {
     template<typename T>
@@ -19,14 +21,14 @@ namespace stl
         {
             checkCap();
 
-            m_queue[m_size] = std::move(value);
+            m_queue[m_size] = util::move(value);
             m_size++;
         }
         void push(T&& value)
         {
             checkCap();
 
-            m_queue[m_size] = std::move(value);
+            m_queue[m_size] = util::move(value);
             m_size++;
         }
 

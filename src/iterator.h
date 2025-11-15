@@ -8,19 +8,14 @@
 
 namespace Iterating
 {
-    /*
-     * Used to add to data structures to allow for nicer for loops
-     */
     template<typename T>
     class Iterator
     {
     public:
-        // Get type from data structure, type needs to be defined in structure
         using ValueType = typename T::ValueType;
         using PointerType = ValueType*;
         using ReferenceType = ValueType&;
 
-        // ReSharper disable once CppParameterMayBeConst
         explicit Iterator(PointerType ptr) noexcept
             : m_ptr(ptr)
         {
@@ -32,7 +27,6 @@ namespace Iterating
             return *this;
         }
 
-        // Pointer offsetting
         PointerType operator+(int offset)
         {
             return m_ptr + offset;
@@ -43,14 +37,12 @@ namespace Iterating
             return m_ptr - offset;
         }
 
-        // Post increment returns actual thing
         Iterator& operator++()
         {
             ++m_ptr;
             return *this;
         }
 
-        // Pre increment returns a copy
         Iterator operator++(int)
         {
             Iterator iterator = *this;
@@ -58,7 +50,6 @@ namespace Iterating
             return iterator;
         }
 
-        // Decrement same as increment for pre and post
         Iterator& operator--()
         {
             --m_ptr;
@@ -72,25 +63,21 @@ namespace Iterating
             return iterator;
         }
 
-        // Get the index
         ReferenceType operator[](sizet index)
         {
             return *(m_ptr + index);
         }
 
-        // Return the raw pointer
         PointerType operator->()
         {
             return m_ptr;
         }
 
-        // Return dereferenced ptr
         ReferenceType operator*()
         {
             return *m_ptr;
         }
 
-        // Equality operators
         bool operator==(const Iterator& other) const
         {
             return m_ptr == other.m_ptr;

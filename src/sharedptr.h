@@ -5,6 +5,7 @@
 #pragma once
 
 #include "util.h"
+#include "stlint.h"
 
 template <typename T>
 struct UsageCount
@@ -47,8 +48,7 @@ namespace stl
         }
         SharedPointer(SharedPointer&& other) noexcept
             : m_data(util::move(other.m_data))
-        {
-        }
+        { }
 
         ~SharedPointer()
         {

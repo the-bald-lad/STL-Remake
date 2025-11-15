@@ -17,24 +17,30 @@ namespace stl
             reAlloc(5);
         }
 
+        // TODO: Either change to retrieve and set or create an Add method
         T_item& operator[](const T_key& index) { return getItem(index); }
         const T_item& operator[](const T_key& index) const { return getItem(index); }
     private:
         T_item& getItem(const T_key& index)
         {
-            // Change to O(log(N))
+            // TODO: Change to O(log(N))
             for (size_t i = 0; i < m_size; i++)
+            {
                 if (m_keys[i] == index)
+                {
                     return m_items[i];
+                }
+            }
 
-            return nullptr;
+            return nullptr; // TODO: Can a reference be a nullptr
         }
 
-        // ReSharper disable once CppDFAUnreachableFunctionCall
         void checkCap(const size_t& size_divider = 2)
         {
             if (m_size >= m_capacity)
+            {
                 reAlloc(m_capacity + m_capacity / size_divider);
+            }
         }
 
         void reAlloc(const size_t& new_cap)
@@ -45,19 +51,22 @@ namespace stl
 
         void reAlloc_keys(const size_t& new_capacity)
         {
-            // 1. allocate new block of memory
             auto* new_block = static_cast<T_key*>(::operator new(new_capacity * sizeof(T_key)));
 
             if (new_capacity < m_size)
+            {
                 m_size = new_capacity;
+            }
 
-            // 2. move to new location
             for (size_t i = 0; i < m_size; i++)
+            {
                 new_block[i] = move(m_keys[i]);
+            }
 
-            // 3. free old block
             for (size_t i = 0; i < m_size; i++)
+            {
                 m_keys[i].~T();
+            }
 
             ::operator delete(m_keys, m_capacity * sizeof(T_key));
 
@@ -65,21 +74,25 @@ namespace stl
             m_capacity = new_capacity;
         }
 
+        // TODO: Merge with above cus they're the same
         void reAlloc_items(const size_t& new_capacity)
         {
-            // 1. allocate new block of memory
             auto* new_block = static_cast<T_item*>(::operator new(new_capacity * sizeof(T_item)));
 
             if (new_capacity < m_size)
+            {
                 m_size = new_capacity;
+            }
 
-            // 2. move to new location
             for (size_t i = 0; i < m_size; i++)
+            {
                 new_block[i] = move(m_items[i]);
+            }
 
-            // 3. free old block
             for (size_t i = 0; i < m_size; i++)
+            {
                 m_items[i].~T();
+            }
 
             ::operator delete(m_items, m_capacity * sizeof(T_item));
 

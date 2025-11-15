@@ -38,7 +38,7 @@ namespace util
         return static_cast<remove_ref<T>&&>(move_val);
     }
 
-    // Forward TODO: Add const versions
+    // TODO: Add const versions
     template <typename T>
     T&& forward(typename remove_ref<T>::type& forward_val) noexcept
     {

@@ -30,7 +30,6 @@ namespace sorting
                 *--first = temp;
             }
         }
-
     }
 }
 

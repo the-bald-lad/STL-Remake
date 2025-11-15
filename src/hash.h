@@ -26,7 +26,7 @@ namespace Hexing
 
     inline uint64t scrambleAndObscure(const uint64t& hash)
     {
-        return (hash << 7 | hash >> 64 - 7) ^ 0xCAFEBABEDEADBEEF;
+        return (hash << 7 | hash >> 64) ^ 0xCAFEBABEDEADBEEF;
     }
 }
 
