@@ -5,43 +5,42 @@
 #pragma once
 
 #include "iterator.h"
-
 #include "stlint.h"
-
 #include "util.h"
 
 namespace stl
 {
-    template<typename T, sizet S>
+    template<typename TItem, sizet TSize>
     class Array
     {
     public:
-        using ValueType = T;
+        using ValueType = TItem;
         using Iterator = Iterating::Iterator<Array>;
 
         Array() = default;
         Array(const Array& copy) noexcept
         {
-            for (sizet i = 0; i < S; ++i)
+            for (sizet i = 0; i < TSize; ++i)
                 m_data[i] = copy.m_data[i];
         }
+
         Array(Array&& move) noexcept
             : m_data(util::move(move.m_data))
-        {
-        }
+        { }
+
         template<typename... Args>
         Array(Args&&... args)
             : m_data(util::forward<Args>(args)...)
-        {
-        }
+        { }
 
         ~Array()
         {
-            for (sizet i = 0; i < S; i++)
-                m_data[i].~T();
+            for (sizet i = 0; i < TSize; i++)
+            {
+                m_data[i].~TItem();
+            }
         }
 
-        // Iterators
         Iterator begin()
         {
             return Iterator(m_data);
@@ -49,21 +48,18 @@ namespace stl
 
         Iterator end()
         {
-            return Iterator(m_data + S);
+            return Iterator(m_data + TSize);
         }
 
-        // ReSharper disable once CppMemberFunctionMayBeStatic
-        [[nodiscard]] constexpr sizet size() const noexcept { return S; }
+        [[nodiscard]] constexpr sizet Size() const noexcept { return TSize; }
 
-        // Indexing operator
-        T& operator[](sizet index) { return m_data[index]; }
-        const T& operator[](sizet index) const { return m_data[index]; }
+        TItem& operator[](sizet index) { return m_data[index]; }
+        const TItem& operator[](sizet index) const { return m_data[index]; }
 
-        // Return array pointer
-        T* Data() { return m_data; }
-        const T* Data() const { return m_data; }
+        TItem* Data() { return m_data; }
+        const TItem* Data() const { return m_data; }
     private:
-        T m_data[S];
+        TItem m_data[TSize];
     };
 
 }
