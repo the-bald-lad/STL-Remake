@@ -58,6 +58,9 @@
 # CMake
 cmake-build-*/
 
+#.idea
+.idea/
+
 # mpeltonen/sbt-idea plugin
 .idea_modules/
 
