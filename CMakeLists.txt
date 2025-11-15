@@ -31,4 +31,6 @@ add_executable(${PROJECT_NAME}
 
         ${SRC_DIR}/util.h
         ${SRC_DIR}/stlint.h
+
+        ${SRC_DIR}/function.h
 )
