@@ -10,9 +10,9 @@
 
 namespace Hexing
 {
-    inline String intToHex(uint64t hash)
+    inline stl::String intToHex(uint64t hash)
     {
-        String hexStr(16, '0');
+        stl::String hexStr(16, '0');
 
         for (int i = 15; i >= 0; --i)
         {
@@ -30,7 +30,7 @@ namespace Hexing
     }
 }
 
-inline String hash(const String& str) noexcept
+inline stl::String hash(const stl::String& str) noexcept
 {
     uint64t hash = 5381;
 
