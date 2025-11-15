@@ -1,14 +1,9 @@
 #include <iostream>
 
-// TODO: Hash does not work
-
-// TODO: map
-// TODO: unordered_map
-// TODO: weak pointers
-
 #include "pointers.h"
 
 #include "array.h"
+#include "function.h"
 #include "vector.h"
 
 #include "mystring.h"
@@ -33,20 +28,19 @@ void exampleOne()
 
 void exampleTwo()
 {
-    // Create custom array
     stl::Array<stl::UniquePointer<int>, 3> array_of_unique_pointers;
 
-    // Add items
     array_of_unique_pointers[0] = make_unique<int>(100);
     array_of_unique_pointers[1] = make_unique<int>(200);
     array_of_unique_pointers[2] = make_unique<int>(300);
 
     std::cout << "Output array contents\n";
 
-    // Loop through using iterator, but using lower level syntax
     for (auto & array_of_unique_pointer : array_of_unique_pointers)
         std::cout << *array_of_unique_pointer << " ";
     std::cout << std::endl;
+
+    std::cout << array_of_unique_pointers.Size() << std::endl;
 }
 
 void exampleThree()
@@ -62,11 +56,16 @@ void exampleThree()
         std::cout << "Your name is: " << name << std::endl;
 }
 
+void DoStuff(int x)
+{
+    std::cout << "Called with value: " << x << std::endl;
+}
+
 int main()
 {
-    exampleOne();
+    stl::Function<void, int> func([](int x) {
+        std::cout << "called with value: " << x << std::endl;
+    });
 
-    exampleTwo();
-
-    exampleThree();
+    func(1);
 }
