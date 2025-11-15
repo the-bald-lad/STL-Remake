@@ -12,7 +12,6 @@ add_executable(${PROJECT_NAME}
         ${SRC_DIR}/array.h
         ${SRC_DIR}/vector.h
 
-        ${SRC_DIR}/pointers.h
         ${SRC_DIR}/uniqueptr.h
         ${SRC_DIR}/sharedptr.h
         ${SRC_DIR}/weakptr.h
@@ -33,4 +32,5 @@ add_executable(${PROJECT_NAME}
         ${SRC_DIR}/stlint.h
 
         ${SRC_DIR}/function.h
+        ${SRC_DIR}/function_internal.h
 )
