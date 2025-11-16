@@ -15,3 +15,5 @@ using uint32t = unsigned int;
 using uint64t = unsigned long long int;
 
 using sizet = unsigned long long;
+
+using byte = unsigned char;
