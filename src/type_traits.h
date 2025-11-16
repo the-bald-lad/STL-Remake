@@ -39,15 +39,15 @@ namespace traits {
     };
 
     template <typename T_>
-    struct remove_ref
+    struct remove_reference
     { using type = T_; };
 
     template <typename T_>
-    struct remove_ref<T_&>
+    struct remove_reference<T_&>
     { using type = T_; };
 
     template <typename T_>
-    struct remove_ref<T_&&>
+    struct remove_reference<T_&&>
     { using type = T_; };
 
     template <typename T_>
@@ -100,7 +100,7 @@ namespace traits {
     template <typename T_>
     struct decay
     {
-        using _1 = remove_ref<T_>;
+        using _1 = remove_reference<T_>;
         using _2 = select<is_function<T_>>::template _Apply<array_to_pointer<T_>, remove_cv<T_>>;
         using type = select<is_array<T_>>::template _Apply<array_to_pointer<remove_array_extent<T_>>, _2>::type;
     };
