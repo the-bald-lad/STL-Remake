@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include "type_traits.h"
 #include "util.h"
 
 namespace function {
@@ -40,7 +41,7 @@ namespace function {
     public:
         explicit CallableFromFunctor(auto&& functor)
         {
-            m_callable = new FunctorWrapper<std::decay_t<decltype(functor)>>{ util::forward<decltype(functor)>(functor) };
+            m_callable = new FunctorWrapper<traits::decay_t<decltype(functor)>>{ util::forward<decltype(functor)>(functor) };
         }
 
         TReturnType Invoke(TArgs&&... args) override
@@ -64,12 +65,12 @@ namespace function {
         {
         public:
             explicit FunctorWrapper(Functor&& f)
-                : m_functor(std::move(f))
+                : m_functor(util::move(f))
             { }
 
             TReturnType operator()(TArgs... args) override
             {
-                return m_functor(std::forward<TArgs>(args)...);
+                return m_functor(util::forward<TArgs>(args)...);
             }
 
         private:
