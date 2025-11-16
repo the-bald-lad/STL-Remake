@@ -51,6 +51,9 @@ namespace traits {
     { using type = T_; };
 
     template <typename T_>
+    using remove_reference_t = remove_reference<T_>::type;
+
+    template <typename T_>
     struct remove_const
     { using type = T_; };
 

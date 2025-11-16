@@ -9,25 +9,25 @@
 namespace util {
 
     template <typename T>
-    constexpr traits::remove_reference<T>::type&& move(T& move_val) noexcept
+    constexpr traits::remove_reference_t<T>&& move(T& move_val) noexcept
     {
         return static_cast<T&&>(move_val);
     }
 
     template <typename T>
-    constexpr traits::remove_reference<T>::type&& move(T&& move_val) noexcept
+    constexpr traits::remove_reference_t<T>&& move(T&& move_val) noexcept
     {
         return move_val;
     }
 
     template <typename T>
-    T&& forward(typename traits::remove_reference<T>::type& forward_val) noexcept
+    T&& forward(traits::remove_reference_t<T>& forward_val) noexcept
     {
         return static_cast<T&&>(forward_val);
     }
 
     template <typename T>
-    T&& forward(typename traits::remove_reference<T>::type&& forward_val) noexcept
+    T&& forward(traits::remove_reference_t<T>&& forward_val) noexcept
     {
         static_assert(
             !traits::is_lvalue<T>,
