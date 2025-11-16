@@ -28,6 +28,7 @@ add_executable(${PROJECT_NAME}
 
         ${SRC_DIR}/map.h
 
+        ${SRC_DIR}/type_traits.h
         ${SRC_DIR}/util.h
         ${SRC_DIR}/stlint.h
 
