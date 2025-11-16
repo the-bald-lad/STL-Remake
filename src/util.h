@@ -4,8 +4,8 @@
 
 #pragma once
 
-namespace util
-{
+namespace util {
+
     template <typename T_>
     struct remove_ref
     { using type = T_; };
@@ -22,10 +22,8 @@ namespace util
     template <typename T> constexpr bool is_lvalue(T&&) { return false; }
 
     using byte = unsigned char;
-}
 
-namespace util
-{
+
     template <typename T>
     constexpr remove_ref<T>::type&& move(T& move_val) noexcept
     {
@@ -38,7 +36,6 @@ namespace util
         return move_val;
     }
 
-    // TODO: Add const versions
     template <typename T>
     T&& forward(typename remove_ref<T>::type& forward_val) noexcept
     {
@@ -54,4 +51,5 @@ namespace util
             );
         return static_cast<T&&>(forward_val);
     }
+
 }
