@@ -30,7 +30,7 @@ namespace util {
     T&& forward(typename traits::remove_ref<T>::type&& forward_val) noexcept
     {
         static_assert(
-            !traits::is_lvalue<T>(),
+            !traits::is_lvalue<T>,
             "util::forward must not be used to convert an rvalue to an lvalue"
             );
         return static_cast<T&&>(forward_val);
