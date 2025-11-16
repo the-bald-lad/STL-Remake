@@ -4,8 +4,6 @@
 
 #pragma once
 
-#include <type_traits>
-
 namespace traits {
 
     template <typename T_> constexpr bool is_const = false;
