@@ -23,7 +23,8 @@ namespace function {
     public:
         using Function = TReturnType(*)(TArgs...);
 
-        explicit CallableFromPointer(const Function func) : m_func(func)
+        explicit CallableFromPointer(const Function func)
+            : m_func(func)
         { }
 
         TReturnType Invoke(TArgs&&... args) override
@@ -41,7 +42,8 @@ namespace function {
     public:
         explicit CallableFromFunctor(auto&& functor)
         {
-            m_callable = new FunctorWrapper<traits::decay_t<decltype(functor)>>{ util::forward<decltype(functor)>(functor) };
+            m_callable = new FunctorWrapper<traits::decay_t<decltype(functor)>>
+            { util::forward<decltype(functor)>(functor) };
         }
 
         TReturnType Invoke(TArgs&&... args) override
@@ -64,8 +66,8 @@ namespace function {
         class FunctorWrapper final : public CallableWrapper
         {
         public:
-            explicit FunctorWrapper(Functor&& f)
-                : m_functor(util::move(f))
+            explicit FunctorWrapper(Functor&& functor)
+                : m_functor(util::move(functor))
             { }
 
             TReturnType operator()(TArgs... args) override
