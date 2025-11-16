@@ -29,13 +29,13 @@ namespace util
     template <typename T>
     constexpr remove_ref<T>::type&& move(T& move_val) noexcept
     {
-        return static_cast<remove_ref<T>&&>(move_val);
+        return static_cast<T&&>(move_val);
     }
 
     template <typename T>
     constexpr remove_ref<T>::type&& move(T&& move_val) noexcept
     {
-        return static_cast<remove_ref<T>&&>(move_val);
+        return move_val;
     }
 
     // TODO: Add const versions
