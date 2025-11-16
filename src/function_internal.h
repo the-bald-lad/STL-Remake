@@ -77,4 +77,7 @@ namespace function {
         };
     };
 
+template <typename TReturnType, typename... TArgs>
+using BindingFunctionPointer = CallableFromPointer<TReturnType, TArgs...>::Function;
+
 }

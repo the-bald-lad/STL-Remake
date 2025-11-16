@@ -15,15 +15,28 @@ template <typename TReturnType, typename... TArgs>
 class Function
 {
 public:
+    Function() = default;
+
     explicit Function(TReturnType(*func)(TArgs...))
-    {
-        m_callable = new function::CallableFromPointer<TReturnType, TArgs...>(func);
-    }
+        : m_callable(new function::CallableFromPointer<TReturnType, TArgs...>(func))
+    { }
 
     template <typename TFunctor>
     explicit Function(TFunctor&& functor)
+        : m_callable(new function::CallableFromFunctor<TReturnType, TArgs...>(util::forward<TFunctor>(functor)))
+    { }
+
+    Function& operator=(TReturnType(*func)(TArgs...))
+    {
+        m_callable = new function::CallableFromPointer<TReturnType, TArgs...>(func);
+        return *this;
+    }
+
+    template <typename TFunctor>
+    Function& operator=(TFunctor&& functor)
     {
         m_callable = new function::CallableFromFunctor<TReturnType, TArgs...>(util::forward<TFunctor>(functor));
+        return *this;
     }
 
     Function(const Function& other) = delete;
@@ -63,5 +76,8 @@ public:
 private:
     function::CallableBase<TReturnType, TArgs...>* m_callable;
 };
+
+template <typename... TArgs>
+using Delegate = Function<void, TArgs...>;
 
 }
